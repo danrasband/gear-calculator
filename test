@@ -1,0 +1,5 @@
+#!/bin/bash
+
+rm -f Elixir.GearCalculator.beam & \
+  elixirc gear_calculator.ex && \
+  elixir gear_calculator_test.exs

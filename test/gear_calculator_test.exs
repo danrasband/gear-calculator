@@ -1,5 +1,3 @@
-ExUnit.start()
-
 defmodule GearCalculatorTest do
   use ExUnit.Case
 
@@ -23,7 +21,7 @@ defmodule GearCalculatorTest do
       output: [-1, -1]
     },
     %{
-      input: [0, 14, 38, 54, 72, 88],
+      input: [-1, 13, 37, 53, 71, 87],
       output: [8, 3]
     }
   ]

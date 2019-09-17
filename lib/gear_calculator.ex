@@ -22,6 +22,8 @@ defmodule GearCalculator do
     distances = distances_between(pegs)
     {constant, coefficient} = calculate_coefficient_and_constant(distances)
 
+    # Double the numerator and denominator to get them into integer-shape, since the denominator
+    # will be 0.5 or 1.5.
     [constant * 2, (1 - coefficient) * 2]
     |> validate(distances)
     |> ideal_form()

@@ -5,7 +5,13 @@ defmodule GearCalculator.CLI do
 
   import GearCalculator, only: [answer: 1]
 
-  @doc "Parse arguments and delegate to the gear calculator."
+  @doc """
+  Parse arguments and delegate to the gear calculator.
+
+  Assumes input comes in one line at a team, each line containing a single integer. The integer 0
+  indicates the end of pegs, and 0 is not included. Additional error checking has been avoided for
+  the sake of simplicity.
+  """
   @spec main([String.t()]) :: :ok
   def main(_args \\ []) do
     read_input()
@@ -14,6 +20,7 @@ defmodule GearCalculator.CLI do
     |> print()
   end
 
+  # Recursively read input lines and add them to the list of pegs.
   defp read_input(pegs \\ []) do
     peg = "" |> IO.gets() |> String.trim() |> String.to_integer()
 
@@ -24,5 +31,6 @@ defmodule GearCalculator.CLI do
     end
   end
 
+  # Print the numerator / denominator fraction like a list.
   defp print([numerator, denominator]), do: IO.puts("[#{numerator}, #{denominator}]")
 end

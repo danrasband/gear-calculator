@@ -1,4 +1,8 @@
 defmodule GearCalculatorTest do
+  @moduledoc """
+  Test the core gear calculator functionality.
+  """
+
   use ExUnit.Case
 
   doctest GearCalculator

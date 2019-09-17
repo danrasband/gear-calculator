@@ -11,7 +11,7 @@ defmodule GearCalculator.CLI do
     read_input()
     |> Enum.reverse()
     |> answer()
-    |> IO.inspect()
+    |> print()
   end
 
   defp read_input(pegs \\ []) do
@@ -23,4 +23,6 @@ defmodule GearCalculator.CLI do
       read_input([peg | pegs])
     end
   end
+
+  defp print([numerator, denominator]), do: IO.puts("[#{numerator}, #{denominator}]")
 end

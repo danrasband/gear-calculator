@@ -24,7 +24,7 @@ class GearCalculatorTest < Test::Unit::TestCase
       output: [-1, -1]
     },
     {
-      input: [-1, 13, 37, 53, 71, 87],
+      input: [1, 15, 39, 55, 73, 89],
       output: [8, 3]
     },
     {

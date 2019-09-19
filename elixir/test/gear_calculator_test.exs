@@ -27,6 +27,18 @@ defmodule GearCalculatorTest do
     %{
       input: [-1, 13, 37, 53, 71, 87],
       output: [8, 3]
+    },
+    %{
+      input: [3, 40, 50],
+      output: [-1, -1]
+    },
+    %{
+      input: [30, 40, 45],
+      output: [-1, -1]
+    },
+    %{
+      input: [30, 50, 50],
+      output: [-1, -1]
     }
   ]
 

@@ -20,13 +20,13 @@ defmodule GearCalculator do
   @spec answer([integer()]) :: [integer()]
   def answer(pegs) do
     distances = distances_between(pegs)
-    {constant, coefficient} = calculate_coefficient_and_constant(distances)
+    {constant, coefficient} = coefficient_and_constant(distances)
 
     # Double the numerator and denominator to get them into integer-shape, since the denominator
     # will be 0.5 or 1.5.
     [constant * 2, (1 - coefficient) * 2]
     |> validate(distances)
-    |> ideal_form()
+    |> simplify()
   end
 
   # Recursively calculates the coefficient of an unknown gear radius and the constant that goes
@@ -37,7 +37,7 @@ defmodule GearCalculator do
   #   x_n = y_n - 0.5 * x_1,
   #
   # where the constant = y_n and the coefficient is -0.5.
-  defp calculate_coefficient_and_constant([distance]), do: {distance, -0.5}
+  defp coefficient_and_constant([distance]), do: {distance, -0.5}
 
   # Initiates and continues the recursion of calculating the constant and coefficient in a system of
   # simple linear equations. This helps solve systems of equations like the following:
@@ -48,8 +48,8 @@ defmodule GearCalculator do
   #   x_n + 0.5 * x_1 = y_n
   #
   # And this part of the function handles everything up until the last equation.
-  defp calculate_coefficient_and_constant([distance | other]) do
-    {constant, coefficient} = calculate_coefficient_and_constant(other)
+  defp coefficient_and_constant([distance | other]) do
+    {constant, coefficient} = coefficient_and_constant(other)
 
     {distance - constant, -coefficient}
   end
@@ -74,10 +74,10 @@ defmodule GearCalculator do
   end
 
   # If the denominator of the fraction is 1, it can't be simplified further, so just return as is.
-  defp ideal_form([numerator, 1]), do: [trunc(numerator), 1]
+  defp simplify([numerator, 1]), do: [trunc(numerator), 1]
 
   # Reduce the fraction until it can't be reduced any further.
-  defp ideal_form([numerator, denominator]) do
+  defp simplify([numerator, denominator]) do
     numerator = trunc(numerator)
     denominator = trunc(denominator)
 
@@ -85,7 +85,7 @@ defmodule GearCalculator do
     |> Integer.gcd(denominator)
     |> case do
       1 -> [numerator, denominator]
-      divisor -> ideal_form([numerator / divisor, denominator / divisor])
+      divisor -> simplify([numerator / divisor, denominator / divisor])
     end
   end
 
@@ -107,10 +107,14 @@ defmodule GearCalculator do
   # The radius of the last gear is the distance between its peg and the previous peg minus half of
   # the first gear's radius.
   #
-  # z = distance - 0.5x
-  defp check_each_gear([distance], radius) do
-    y = distance - 0.5 * radius
-    {y, radius >= @minimum_radius_first_gear && y >= @minimum_radius_all_gears}
+  # x_n = y_n - 0.5 * x_0
+  defp check_each_gear([distance], first_radius) do
+    penultimate_radius = distance - 0.5 * first_radius
+
+    {
+      penultimate_radius,
+      penultimate_radius >= @minimum_radius_all_gears && first_radius >= @minimum_radius_first_gear
+    }
   end
 
   # The radius of any non-last gear is the dinstance between its peg and the previous peg minus the
@@ -121,6 +125,6 @@ defmodule GearCalculator do
     {next_radius, valid?} = check_each_gear(other, radius)
     this_radius = distance - next_radius
 
-    {this_radius, valid? && this_radius > @minimum_radius_all_gears}
+    {this_radius, valid? && this_radius >= @minimum_radius_all_gears}
   end
 end

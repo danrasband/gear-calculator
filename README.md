@@ -24,6 +24,12 @@ mix escript.build
 ./gear_calculator
 ```
 
+Test cases can be run with the following command:
+
+```bash
+mix test
+```
+
 ### Ruby
 
 The Ruby implementation was written second, and mimics the Elixir implementation very closely.
@@ -31,7 +37,21 @@ The Ruby implementation was written second, and mimics the Elixir implementation
 To run the Ruby implementation of the gear calculator, change into the `ruby` folder and use the following command, followed by the peg locations, one per line, then a 0 to indicate you are done:
 
 ```bash
+ruby gear_calculator
+
+# OR on Mac or Linux:
+
 ./gear_calculator
+```
+
+Tests can be run with the following command:
+
+```bash
+ruby gear_calculator_test.rb
+
+# OR on Mac or Linux:
+
+./gear_calculator_test.rb
 ```
 
 ## The Algorithm

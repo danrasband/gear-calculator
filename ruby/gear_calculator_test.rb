@@ -1,3 +1,4 @@
+#!/usr/bin/env ruby
 # froze_string_literal: true
 
 require 'test/unit'
